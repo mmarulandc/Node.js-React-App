@@ -24,7 +24,6 @@ export default class AuthService {
   }
 
   signup(username, password) {
-    console.log(username + " " + password);
     return this.fetch("/api/auth/signup", {
       method: "POST",
       body: JSON.stringify({
@@ -32,7 +31,6 @@ export default class AuthService {
         password,
       }),
     }).then((res) => {
-      console.log("medio entra")
       return Promise.resolve(res);
     });
   }
@@ -97,10 +95,7 @@ export default class AuthService {
   }
 
   async _checkStatus(response) {
-    let obj = response.body;
-    console.log(response)
     // raises an error in case response status is not a success
-    // console.log(obj)
     if (response.status >= 200 && response.status < 300) {
       // Success status lies between 200 to 300
       return response;
@@ -110,7 +105,7 @@ export default class AuthService {
         .then((data) => ({data}))
       
       let errorMessage = await getErrorMessage(response);
-      console.log(errorMessage.data.info)
+      (errorMessage.data.info)
       var error = new Error(errorMessage.data.info.message);
       error.response = errorMessage.data.info.message;
       throw error;

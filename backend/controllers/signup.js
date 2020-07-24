@@ -4,12 +4,11 @@ const { validationResult } = require("express-validator");
 const signup = async (req, res) => {
   try {
     const errors = validationResult(req);
-    console.log("hasta ahora... funciona")
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         info: {
-          message: JSON.stringify(errors.array())
-        }        
+          message: JSON.stringify(errors.array()),
+        },
       });
     }
     let { username, password } = req.body;
@@ -23,19 +22,16 @@ const signup = async (req, res) => {
         },
       });
     }
-    //Se hashea la contraseña
-    // password = Bcrypt.hashSync(password, 10);
-    
+
     let newUser = new User({
       username: username,
       password: password,
-      //   email: email
     });
     await newUser.save();
     return res.status(200).json({
       info: {
         message: "El usuario se ha registrado con exito",
-      }
+      },
     });
   } catch (err) {
     res.status(500).json({

@@ -25,26 +25,6 @@ export default class SignupForm extends Component {
     });
   };
 
-  //   signup = (data) => {
-  //     fetch("/api/auth/signup", {
-  //       method: "POST",
-  //       body: JSON.stringify(data),
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         console.log(data);
-  //         this.setState({
-  //           username: "",
-  //           password: "",
-  //         });
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
-
   handleSubmit = async (event) => {
     const { username, password } = this.state;
     // alert("A name was submitted: " + this.state.username);
