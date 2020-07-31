@@ -3,23 +3,13 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import MainPage from "./components/MainPage";
+import NotFound from "./components/NotFound";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
-import SignupForm from './components/SignupForm';
-// import NotFound from './components/NotFound';
+import SignupForm from "./components/SignupForm";
 
 class App extends React.Component {
-  state = {
-    comments: [
-      {
-        username: "",
-        email: "",
-        comment: "",
-        trend: "",
-      },
-    ],
-  };
   sendName = (name) => {
     this.setState({
       username: name,
@@ -35,14 +25,12 @@ class App extends React.Component {
               path="/"
               render={(props) => <LoginForm {...props} />}
             />
-            <Route path="/signup" component={SignupForm}/>
+            <Route path="/signup" component={SignupForm} />
             <Route
               path="/dashboard"
-              render={(props) => (
-                <MainPage {...props}/>
-              )}
+              render={(props) => <MainPage {...props} />}
             />
-            {/* <Route component = {NotFound}/>}/> */}
+            <Route component = {NotFound}/>
           </Switch>
         </div>
       </BrowserRouter>

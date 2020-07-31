@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import Validator from "../helpers/Validator";
 
-// import logo from '../iconos/icono.png';
-import AuthService from '../helpers/AuthService';
+import AuthService from "../helpers/AuthService";
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -11,21 +10,36 @@ export default class LoginForm extends Component {
     this.state = {
       username: "",
       password: "",
+      errors: {},
     };
     this.Auth = new AuthService();
+    this.Validator = new Validator();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // this.props.sendName(this.state.username);
+    let errors = this.Validator.validateEmail(
+      this.state.username,
+    );
+    if (errors.email !== "") {
+      this.setState({
+        errors: errors,
+      });
+      return;
+    }
     this.Auth.login(this.state.username, this.state.password)
       .then((res) => {
         this.props.history.replace("/dashboard");
       })
       .catch((err) => {
-        alert(err);
+        errors.password = err.message
+        console.log(err)
+        this.setState({
+          errors: errors
+        });
+        return;
       });
   };
 
@@ -38,7 +52,7 @@ export default class LoginForm extends Component {
   };
 
   render() {
-    const styles = {};
+    const { errors } = this.state;
     return (
       <div>
         <div className="container mt-3 ">
@@ -55,8 +69,9 @@ export default class LoginForm extends Component {
                       onChange={this.handleChange}
                       name="username"
                       id="name"
-                      placeholder="usuario"
+                      placeholder="email"
                     />
+                    {errors.email ? <p className="text-danger">{errors.email}</p>: null}
                   </div>
                   <div className="form-group">
                     <input
@@ -66,14 +81,16 @@ export default class LoginForm extends Component {
                       onChange={this.handleChange}
                       name="password"
                       id="pass"
-                      placeholder="contraseña"
+                      placeholder="Password"
                     />
+                    {errors.password ? <p className="text-danger">{errors.password}</p>: null}
+
                   </div>
                   <button type="submit" className="btn btn-primary mb-2">
-                    Ingreso
+                    Login
                   </button>
                   <label className="ml-5">
-                    <Link to="/signup">Registrate</Link>
+                    <Link to="/signup">Signup</Link>
                   </label>
                 </form>
               </div>

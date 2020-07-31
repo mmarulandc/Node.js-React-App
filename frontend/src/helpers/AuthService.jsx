@@ -103,9 +103,8 @@ export default class AuthService {
       let getErrorMessage = (response) => response
         .json()
         .then((data) => ({data}))
-      
-      let errorMessage = await getErrorMessage(response);
-      (errorMessage.data.info)
+        let errorMessage = await getErrorMessage(response);
+        console.log(errorMessage);
       var error = new Error(errorMessage.data.info.message);
       error.response = errorMessage.data.info.message;
       throw error;

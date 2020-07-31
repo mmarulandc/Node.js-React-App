@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "../styles.css";
-// import logo from "../iconos/icono.png";
+import Validator from "../helpers/Validator";
 import AuthService from "../helpers/AuthService";
 
 export default class SignupForm extends Component {
@@ -10,9 +10,10 @@ export default class SignupForm extends Component {
     this.state = {
       username: "",
       password: "",
+      errors: {},
     };
     this.Auth = new AuthService();
-
+    this.Validator = new Validator();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -27,19 +28,32 @@ export default class SignupForm extends Component {
 
   handleSubmit = async (event) => {
     const { username, password } = this.state;
-    // alert("A name was submitted: " + this.state.username);
     event.preventDefault();
+    let errors = this.Validator.validateSignupForm(username, password);
+    if (errors.email !== "" || errors.password !== "") {
+      this.setState({
+        errors: errors,
+      });
+      return;
+    }
     this.Auth.signup(username, password)
-    .then((res) => {
-      alert(res.message);
-    })
-    .catch((err) => {
-      alert(err);
-    });
-    // this.signup(this.state);
+      .then((res) => {
+        alert(res.info.message);
+        this.setState({
+          username: "",
+          password: ""
+        });
+      })
+      .catch((err) => {
+        errors.password = err.message;
+        this.setState({
+          errors: errors
+        })
+      });
   };
 
   render() {
+    let { errors } = this.state;
     return (
       <div>
         <div className="container mt-3 ">
@@ -54,10 +68,13 @@ export default class SignupForm extends Component {
                       className="form-control"
                       name="username"
                       id="name"
-                      placeholder="usuario"
+                      placeholder="Email"
                       value={this.state.username}
                       onChange={this.handleChange}
                     />
+                    {errors.email ? (
+                      <p className="text-danger">{errors.email}</p>
+                    ) : null}
                   </div>
                   <div className="form-group">
                     <input
@@ -65,16 +82,19 @@ export default class SignupForm extends Component {
                       className="form-control"
                       name="password"
                       id="pass"
-                      placeholder="contraseña"
+                      placeholder="Password"
                       value={this.state.password}
                       onChange={this.handleChange}
                     />
+                    {errors.password ? (
+                      <p className="text-danger">{errors.password}</p>
+                    ) : null}
                   </div>
                   <button type="submit" className="btn btn-primary mb-2">
-                    Registro
+                    Signup
                   </button>
                   <label className="ml-5">
-                    <Link to="/">Ya tienes cuenta? logeate</Link>
+                    <Link to="/">Login</Link>
                   </label>
                 </form>
               </div>

@@ -1,15 +1,12 @@
 const express = require("express");
 const localStategy = require("../middlewares/localStrategy");
-const Stategy = require("../middlewares/jwtStrategy");
 const passport = require("passport")
-
-
-const { signupChecks, validate } = require("../utils/validations");
-
 const router = express.Router();
-
 const signup = require("../controllers/signup");
 const login = require("../controllers/login");
+const { signupChecks, validate } = require("../utils/validations");
+
+
 passport.use(localStategy)
 router.post("/signup", signupChecks(), validate, signup);
 router.post("/login", login);

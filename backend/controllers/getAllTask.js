@@ -1,44 +1,45 @@
-const post = require("../models/postModel");
+const TaskScheme = require("../models/task");
 
 module.exports = async (req, res) => {
   try {
-    let perPage = req.body.perPage || 2;
+    let perPage = req.body.perPage || 3;
     let currentPage = req.body.currentPage || 1;
-    let foundPost = await post
-      .find()
-      .populate("creator", "username")
-      .skip(perPage * currentPage - perPage)
-      .limit(perPage);
-    if (foundPost.length === 0) {
-      return res.status(404).json({
-        message: "aún no hay post disponibles",
+    let creatorID = req.body.creatorID
+    let foundTask = await TaskScheme
+      .find({creator: creatorID})
+      .populate("creator")
+      .select("creator taskName description priority expectedDate")
+      // .skip(perPage * currentPage - perPage)
+      // .limit(perPage);
+    if (foundTask.length === 0) {
+      return res.status(200).json({
+        message: "There are not available tasks",
       });
     }
-    let numPost = await post.count();
+    let numTask = await TaskScheme.find({creator: creatorID}).countDocuments();
+    
     return res.status(200).json({
-      message: "Se ha consultado correctamente",
-      currentPage: currentPage,
-      perPage: perPage,
-      pages: Math.ceil(numPost / perPage),
-      posts: foundPost.map((post) => {
+      message: "Ok",
+      // currentPage: currentPage,
+      // perPage: perPage,
+      // pages: Math.ceil(numTask / perPage),
+      task: foundTask.map((task) => {
         return {
-          creator: post.creator.username,
-          creatorID: post.creator._id,
-          postID: post._id,
-          postTitle: post.title,
-          postContent: post.content,
-          postImage: post.img,
-          createAt: post.created_at,
-          updateAt: post.created_at,
+          id: task._id,
+          username: task.creator.username,
+          taskName: task.taskName,
+          description: task.description,
+          priority: task.priority,
+          expectedDate: task.expectedDate,
         };
       }),
-      numResult: numPost,
+      numResult: numTask,
     });
   } catch (err) {
     console.log(err);
     return res.status.json(500).json({
       message:
-        "No es posible consultar ahora mismo, por favor intente más tarde",
+        "unable to fetch, try later",
     });
   }
 };

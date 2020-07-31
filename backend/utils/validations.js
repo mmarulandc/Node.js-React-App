@@ -5,22 +5,38 @@ const signupChecks = () => {
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
   );
   return [
-    body("username", "El nombre de usuario es obligatorio"),
+    body("username", "Email is required"),
     body("password")
       .notEmpty()
-      .withMessage("La contraseña es obligatoria")
+      .withMessage("Password is required")
       .matches(passwordRegex)
       .withMessage(
-        "Por favor ingrese una contraseña que contenta al menos un caracter especial, y 8 caracteres"
+        "Password with at least 8 characters, 1 special character and 1 uppercase character"
       ),
   ];
 };
 
 const loginChecks = () => {
   return [
-    body("username", "El nombre de usuario es obligatorio"),
-    body("password").notEmpty().withMessage("La contraseña es obligatoria"),
+    body("username", "Email is required"),
+    body("password").notEmpty().withMessage("password is required"),
   ];
+};
+
+const newTaskChecks = () =>{
+  return [
+    body("creator").notEmpty().withMessage("Creator name is required"),
+    body("taskName").notEmpty().withMessage("Task's name is required"),
+    body("expectedDate").notEmpty().withMessage("Date is required").isDate().withMessage("Invalid date"),
+    body("priority").notEmpty().withMessage("Priority is required")
+  ]
+};
+const editTaskChecks = () =>{
+  return [
+    body("taskName").notEmpty().withMessage("Task's name is required"),
+    body("expectedDate").notEmpty().withMessage("Date is required").isDate().withMessage("Invalid date"),
+    body("priority").notEmpty().withMessage("Priority is required")
+  ]
 };
 
 const validate = (req, res, next) => {
@@ -39,4 +55,4 @@ const validate = (req, res, next) => {
   });
 };
 
-module.exports = { loginChecks, signupChecks, validate };
+module.exports = { loginChecks, signupChecks, newTaskChecks, editTaskChecks, validate };

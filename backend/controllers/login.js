@@ -14,7 +14,12 @@ const login = (req, res, next) => {
             }
           });
         }
-        const token = jwt.sign(user.username, KEYS.JWT_SECRET_KEY);
+        const token = jwt.sign({
+          username: user.username,
+          id: user._id
+        }, KEYS.JWT_SECRET_KEY, {
+          expiresIn: 3600
+        });
         return res.status(200).json({ user, token });
       });
     } else {

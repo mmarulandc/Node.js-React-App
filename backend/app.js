@@ -5,9 +5,10 @@ const cors = require("cors");
 const passport = require("passport");
 const db = require("./config/database");
 const auth = require("./routes/auth");
+const task = require("./routes/task")
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 //septup middlewares
 app.use(morgan("dev"));
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cors());
 app.use(passport.initialize())
 app.use("/api/auth", auth.router);
+app.use("/api/task", task);
 
 app.listen(port, () => {
   console.log(`App listening in port ${port}`);

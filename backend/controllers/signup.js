@@ -14,11 +14,10 @@ const signup = async (req, res) => {
     let { username, password } = req.body;
 
     let isRegistered = await User.find({ username: username });
-
-    if (isRegistered) {
+    if (isRegistered.length > 0) {
       return res.status(400).json({
         info: {
-          message: "Ya hay un usuario registrado con este email",
+          message: "The email is already taken",
         },
       });
     }
@@ -30,14 +29,14 @@ const signup = async (req, res) => {
     await newUser.save();
     return res.status(200).json({
       info: {
-        message: "El usuario se ha registrado con exito",
+        message: "The user has been registered sucsessfully",
       },
     });
   } catch (err) {
     res.status(500).json({
       info: {
         message:
-          "Ha ocurrido un error al registrarse, por favor intentelo más tarde",
+          "Something wrong happened, try later",
       },
     });
     console.log(`Ha ocurrido un error ${err}`);
