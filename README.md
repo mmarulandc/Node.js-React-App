@@ -35,11 +35,12 @@ foo@bar:~/Node.js-React-App/frontend/$ npm start
 
 # Implementaciones
 
-* Autenticación con Passport.js en el backend
-* Utilización de State Components con React
-* Algunos test de la api implementados con Mocha y la librería Chai con asserts
-* Usamos variables de ambiente para mantener secretos lejos del usuario
-* Se intentó agregar paginación, pero por cuestiones de tiempo no fue implementada
+* Autenticación con Passport.js en el backend.
+* Utilización de State Components con React.
+* Algunos test de la api implementados con Mocha y la librería Chai con asserts.
+* Usamos variables de ambiente para mantener secretos lejos del usuario.
+* Se intentó agregar paginación, pero por cuestiones de tiempo no fue implementada.
+* Se planeó implementar algun sistema de CI, pero por cuestiones de tiempo, no fue implementado.
 
 # Cómo correr las pruebas?
 ```console
