@@ -2,10 +2,11 @@
   "name": "Node.js-React-App",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "test": "./node_modules/.bin/mocha --reporter spec --exit",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,8 @@
   "homepage": "https://github.com/mmarulandc/Node.js-React-App#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -28,12 +31,14 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.6.0",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.1.0",
     "moment": "^2.27.0",
     "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "supertest": "^4.0.2"
   }
 }

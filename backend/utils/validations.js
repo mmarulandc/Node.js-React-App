@@ -4,8 +4,9 @@ const signupChecks = () => {
   const passwordRegex = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
   );
+  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return [
-    body("username", "Email is required"),
+    body("username").notEmpty().withMessage("Email is required").matches(emailRegex).withMessage("Enter a valid email"),
     body("password")
       .notEmpty()
       .withMessage("Password is required")
